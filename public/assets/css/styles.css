@@ -99,6 +99,19 @@ a {
 	box-shadow: 0 0 0 0.2rem rgba(191, 59, 59, 0.25);
 }
 
+/* Fix positioning of search icon */
+.input-wrapper {
+    width: 300px;
+    position: relative;
+}
+
+#icon-magnifying {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(50%);
+}
+
 .text-input {
 	display: block;
 	width: 100%;
@@ -316,8 +329,18 @@ a {
 }
 
 /* ===== PRODUCT MODALS ===== */
-.custom-modal-w {
-	width: 30%;
+.btn-dashed, .btn-dashed:hover {
+	border: 2px dashed var(--text-muted);
+	background-color: transparent;
+	color: var(--text-muted);
+}
+
+.btn-dashed:hover, .btn-dashed:active {
+	background-color: var(--input-background);
+}
+
+.btn-dashed:focus {
+	box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25);
 }
 
 /* ===== BOOTSTRAP OVERRIDES ===== */
@@ -379,7 +402,7 @@ a {
 	color: var(--primary-red);
 }
 
-/* pagination colors */
+/* pagination */
 .pagination .page-link {
 	color: var(--primary-red);
 	border-color: #dee2e6;

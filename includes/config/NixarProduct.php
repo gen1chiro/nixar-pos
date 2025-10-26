@@ -5,29 +5,37 @@
         public function __construct(mysqli $Conn) {
             $this->Conn = $Conn;
         }
-        public function fetchAll() {
+
+        public function fetchPaginated(int $Limit = 10, int $Offset = 0) {
             try {
-                $Sql = "SELECT np.*, pm.*
+                $Sql = "SELECT np.*, 
+                               pm.*,
+                               ROUND(ps.base_price + (ps.base_price * (np.mark_up / 100)), 2) AS final_price
                         FROM nixar_products np
                         JOIN product_materials pm
-                        ON np.product_material_id = pm.product_material_id
-                        WHERE np.is_deleted = 0";
+                            ON np.product_material_id = pm.product_material_id
+                        JOIN product_suppliers ps
+                            ON ps.nixar_product_sku = np.nixar_product_sku
+                        WHERE np.is_deleted = 0
+                        LIMIT ? OFFSET ?";
                 // Execute SQL Query
-                $Result = $this->Conn->query($Sql);
-                if(!$Result) {
-                    throw new Exception("Failed to execute query: ". $this->Conn->error);
+                $Stmt = $this->Conn->prepare($Sql);
+                if(!$Stmt) {
+                    throw new Exception("Failed to execute query: " . $this->Conn->error);
                 }
-                // Fetch all product data as an associative array
+                $Stmt->bind_param("ii", $Limit, $Offset);
+                $Stmt->execute();
+
+                $Result = $Stmt->get_result();
                 $Rows = $Result->fetch_all(MYSQLI_ASSOC);
-                // Free memory resources and return rows
-                $Result->free();
-    
+                $Stmt->close();
+
                 return $Rows;
             } catch (Exception $E) {
-                return json_encode([
+                return [
                     "status" => "error",
                     "message" => $E->getMessage()
-                ]);
+                ];
             }
         }
         // TODO: updateInfo
@@ -47,13 +55,15 @@
     
                 $Stmt->close();
     
-                $UpdatedProducts = $this->fetchAll();
-                return $UpdatedProducts;
+                return [
+                    'success' => true,
+                    'message' => "Product with SKU { $ProductSku } successfully deleted."
+                ];
             } catch (Exception $E) {
-                return json_encode([
-                    "status" => "error",
-                    "message" => $E->getMessage()
-                ]);
+                return [
+                    'success' => false,
+                    'message' => "Error: ". $E->getMessage()
+                ];
             }
         }
         // create
@@ -75,10 +85,10 @@
     
                 return $Status;
             } catch (Exception $E) {
-                return json_encode([
+                return [
                     "status" => "error",
                     "message" => $E->getMessage()
-                ]);
+                ];
             }
         }
 
@@ -103,10 +113,39 @@
     
                 return $Rows;
             } catch (Exception $E) {
-                return json_encode([
+                return [
                     "status" => "error",
                     "message" => $E->getMessage()
-                ]);
+                ];
+            }
+        }
+
+        public function countPerCategory() {
+            try {
+                $Sql = "SELECT COUNT(np.nixar_product_sku) AS product_count,
+                               pm.category
+                        FROM nixar_products np
+                        LEFT JOIN product_materials pm
+                            ON np.product_material_id = pm.product_material_id
+                        WHERE pm.category IN ('Glass', 'Rubber', 'Tints')
+                        GROUP BY pm.category";
+    
+                $Stmt = $this->Conn->query($Sql);
+                $Result = [];
+                
+                while($Row = $Stmt->fetch_assoc()) {
+                    $Result[strtolower($Row['category'])] = (int)$Row['product_count'];
+                }
+                
+                $Result['all_products'] = array_sum($Result); 
+                $Stmt->close();
+    
+                return $Result;
+            } catch (Exception $E) {
+                return [
+                    "status" => "error",
+                    "message" => $E->getMessage()
+                ];
             }
         }
     }

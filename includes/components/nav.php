@@ -11,7 +11,7 @@
       <a href="../public/inventory.php">Inventory</a>
     </li>
     <li class="nav-link py-2 px-4 rounded-pill">
-      <a href="../public/pos.php">Transaction</a>
+      <a href="../public/transaction.php">Transaction</a>
     </li>
     <?php if(SessionManager::get('role') === 'admin'): ?>
       <li class="nav-link py-2 px-4 rounded-pill">

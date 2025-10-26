@@ -1,9 +1,7 @@
 <?php 
+    header("Content-Type: application/json");
     include_once __DIR__ . '/../../includes/config/_init.php';
 
-    SessionManager::checkSession();
-
-    $Conn = DatabaseConnection::getInstance()->getConnection();
     $Filters = InputValidator::sanitizeArray($_GET);
 
     $Limit = isset($Filters['limit']) ? (int)$Filters['limit'] : 10;
@@ -14,9 +12,9 @@
     $Params = [];
     $Types = '';
 
-    if(!empty($Filters['category'])) {
-        $BaseSql .= " AND category = ?";
-        $Params[] = $Filters['category'];
+    if(!empty($Filters['material'])) {
+        $BaseSql .= " AND material_name = ?";
+        $Params[] = $Filters['material'];
         $Types .= 's';
     }
 
@@ -50,23 +48,31 @@
     $Params[] = $Limit;
     $Params[] = $Offset;
     $Types .= 'ii';
+    try {
+        $Stmt = $Conn->prepare($BaseSql);
+        if(!$Stmt) {
+            throw new Exception("Failed to execure query" . $this->Conn->error);
+        }
+        $Stmt->bind_param($Types, ...$Params);
+        $Stmt->execute();
 
-    $Stmt = $Conn->prepare($BaseSql);
-    if(!$Stmt) {
-        throw new Exception("Failed to execure query" . $this->Conn->error);
+        $Result = $Stmt->get_result();
+        $Rows = $Result->fetch_all(MYSQLI_ASSOC);
+        $Stmt->close();
+
+
+        echo json_encode([
+            'sql' => $BaseSql,
+            'params' => $Params,
+            'types' => $Types,
+            'inventory' => $Rows
+        ]);
+    } catch (Exception $E) {
+        error_log("Error: " . $E->getMessage());
+        error_log("Trace: " . $E->getTraceAsString());
+        echo json_encode([
+            'status' => 'error',
+            'message' => $E->getMessage()
+        ]);
     }
-    $Stmt->bind_param($Types, ...$Params);
-    $Stmt->execute();
-
-    $Result = $Stmt->get_result();
-    $Rows = $Result->fetch_all(MYSQLI_ASSOC);
-    $Stmt->close();
-
-    header("Content-Type: application/json");
-    echo json_encode([
-        'sql' => $BaseSql,
-        'params' => $Params,
-        'types' => $Types,
-        'inventory' => $Rows
-    ]);
 ?>

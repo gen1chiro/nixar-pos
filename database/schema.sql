@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS receipts (
     receipt_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     sale_date DATETIME NOT NULL,
     total_amount FLOAT NOT NULL,
+    discount FLOAT NOT NULL DEFAULT 0.0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
 

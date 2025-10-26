@@ -11,6 +11,7 @@ USE nixar_autoglass_db;
 
 CREATE OR REPLACE VIEW product_inventory_view AS
 SELECT np.product_name,
+       np.product_image_url,
        CONCAT(cm.make, ' ', cm.model) AS car_make_model,
        cm.year,
        cm.type,

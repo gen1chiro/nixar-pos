@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -9,7 +7,7 @@
             </div>
 
             <div class="modal-body">
-                <form action="" id="deleteProductForm">
+                <form action="../../public/handlers/handle_delete_product.php" id="deleteProductForm">
                     <p>Are you sure you want to delete product: <span class="fw-bold" id="productToDelete"></span></p>
                 </form>
             </div>

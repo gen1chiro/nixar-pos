@@ -163,8 +163,8 @@
     </div>
   </div>
   <!-- =============== MODALS =============== -->
-  <?php include_once '../includes/components/add-product-modal.php'; ?>
-  <?php include_once '../includes/components/edit-product-modal.php'; ?>
+  <?php $mode='add'; include_once '../includes/components/product-modal.php'; ?>
+  <?php $mode = 'edit'; include  '../includes/components/product-modal.php'; ?>
   <?php include_once '../includes/components/delete-product-modal.php'; ?>
 
 <!-- =============== INVENTORY PAGE SPECIFIC SCRIPT =============== -->

@@ -8,12 +8,12 @@
 
         // TODO: fetchInventory
         public function fetchInventory($Limit = 10, $Offset = 0): array {
-            $Sql = "SELECT * FROM product_inventory_view ORDER BY current_stock DESC, product_name ASC LIMIT ?, ?";
+            $Sql = "SELECT * FROM product_inventory_view ORDER BY current_stock DESC, product_name ASC LIMIT ? OFFSET ?";
             $Stmt = $this->Conn->prepare($Sql);
             if(!$Stmt) {
                 throw new Exception("Failed to execute query: ". $this->Conn->error);
             }
-            $Stmt->bind_param("ii", $Offset, $Limit);
+            $Stmt->bind_param("ii", $Limit, $Offset);
             $Stmt->execute();
 
             $Result = $Stmt->get_result();
@@ -29,7 +29,7 @@
         public function searchInventoryByKeyword(string $Query, int $Limit, int $Offset) {
             $Like = "%{$Query}%";
             $MatchSql = "SELECT * FROM product_inventory_view 
-                WHERE model LIKE ? 
+                WHERE car_make_model LIKE ? 
                   OR type LIKE ? 
                   OR product_name LIKE ?
                 ORDER BY current_stock DESC
@@ -58,7 +58,7 @@
             $Like = "%{$Keyword}%";
             $Sql = "SELECT COUNT(*) AS total
                         FROM product_inventory_view
-                        WHERE model LIKE ?
+                        WHERE car_make_model LIKE ?
                         OR type LIKE ?
                         OR product_name LIKE ?";
             $Stmt = $this->Conn->prepare($Sql);

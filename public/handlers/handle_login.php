@@ -1,8 +1,6 @@
 <?php 
     include_once __DIR__ . '/../../includes/config/_init.php';
 
-    $Conn = DatabaseConnection::getInstance()->getConnection();
-
     if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         try {
             $Sanitized = InputValidator::sanitizeArray($_POST);
@@ -34,7 +32,7 @@
                         header('Location: /nixar-pos/public/inventory.php');
                         break;
                     case 'cashier':
-                        header('Location: /nixar-pos/public/pos.php');
+                        header('Location: /nixar-pos/public/transaction.php');
                         break;
                     default:
                         header('Location: /nixar-pos/public/index.php');
