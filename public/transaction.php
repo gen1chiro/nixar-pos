@@ -66,7 +66,7 @@
                     <div class="flex-grow-1 border shadow-sm rounded-2">
 
                     </div>
-                    <button class="btn">
+                    <button class="btn" onclick="window.location.href='checkout.php'">
                         Proceed to Payment
                         <i class="fa-solid fa-chevron-right text-white"></i>
                     </button>

@@ -7,12 +7,12 @@
             </div>
 
             <div class="modal-body">
-                <form action="../../public/handlers/handle_delete_product.php" id="deleteProductForm">
+                <form action="/nixar-pos/public/handlers/handle_delete_product.php" id="deleteProductForm">
                     <p>Are you sure you want to delete product: <span class="fw-bold" id="productToDelete"></span></p>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn " data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-secondary" form="deleteProductForm">Delete Product</button>
             </div>
         </div>

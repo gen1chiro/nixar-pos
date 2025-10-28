@@ -1,3 +1,4 @@
+/* ================= INVENTORY REFERENCES AND VARIABLES ================= */
 const searchBox = document.getElementById('search-input');
 const inventoryTbl = document.getElementById('container-inventory-data');
 const pagination = document.getElementById('pagination-container');
@@ -7,12 +8,16 @@ let queryString = '';
 const LIMIT = 10;
 let currentPage = 1;
 
-// Two step form elements
+/* ================= FORM REFERENCES AND VARIABLES ================= */
 const step1 = document.getElementById(`step1`);
 const step2 = document.getElementById(`step2`);
 const nextBtn = document.getElementById(`nextStep`);
 const prevBtn = document.getElementById(`prevStep`);
 const submitBtn = document.getElementById(`submitProduct`);
+
+const editProductForm = document.getElementById('editProductForm');
+const addProductForm = document.getElementById('addProductForm');
+const deleteProductForm = document.getElementById('deleteProductForm');
 
 /* ================= INVENTORY SEARCH FUNCTIONS ================= */
 searchBox.addEventListener('input', () => {
@@ -56,15 +61,13 @@ const searchProducts = (page = 1) => {
 const renderRows = (data) => {
   const htmlString = data.map(product => {
     const productData = encodeURIComponent(JSON.stringify(product));
-
+    console.log(productData);
     return `
       <tr>
         <td>${product.product_name}</td>
-        <td>${product.car_make_model}</td>
-        <td>${product.year}</td>
-        <td>${product.type}</td>
         <td>${product.category}</td>
         <td>${product.current_stock}</td>
+        <td>${product.mark_up}%</td>
         <td>₱${product.final_price}</td>
         <td>
           <button 
@@ -103,6 +106,7 @@ const renderRows = (data) => {
   document.querySelectorAll('.btn-delete').forEach(btn => {
     btn.addEventListener('click', () => {
       const product = JSON.parse(decodeURIComponent(btn.dataset.product));
+      console.log(product);
       fillDeleteModal(product);
     });
   });
@@ -111,7 +115,7 @@ const renderRows = (data) => {
 
 // Autofill edit modal with product data
 const fillEditModal = (data) => {
-  document.getElementById('editproductId').value = data.id;
+  document.getElementById('editproductId').value = data.nixar_product_sku;
   document.getElementById('editproductName').value = data.product_name;
   document.getElementById('editcarModel').value = data.car_make_model;
   document.getElementById('edityear').value = data.year;
@@ -131,21 +135,21 @@ const fillEditModal = (data) => {
 };
 
 const fillDeleteModal = (data) => {
+  console.log('delete modal: ' + JSON.stringify(data));
   const productNameSpan = document.getElementById('productToDelete');
-  const deleteForm = document.getElementById('deleteProductForm');
 
   // Show product name in modal
-  productNameSpan.textContent = data.name;
+  productNameSpan.textContent = data.product_name;
 
   // Store product ID in a hidden input (so it can be submitted)
-  let hiddenInput = deleteForm.querySelector('input[name="productId"]');
+  let hiddenInput = deleteProductForm.querySelector('input[name="product_sku"]');
   if (!hiddenInput) {
     hiddenInput = document.createElement('input');
     hiddenInput.type = 'hidden';
-    hiddenInput.name = 'productId';
-    deleteForm.appendChild(hiddenInput);
+    hiddenInput.name = 'product_sku';
+    deleteProductForm.appendChild(hiddenInput);
   }
-  hiddenInput.value = data.id;
+  hiddenInput.value = data.nixar_product_sku;
 };
 
 /* ================= INVENTORY PAGINATION FUNCTIONS ================= */
@@ -287,6 +291,10 @@ const resetFilters = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchInventory();
+
+    if (addProductForm) handleProductForm(addProductForm);
+    if (editProductForm) handleProductForm(editProductForm);
+    if (deleteProductForm) handleDeleteProduct();
 });
 
 /* ================= PRODUCT IMAGE UPLOAD FUNCTIONS ================= */
@@ -320,8 +328,9 @@ addBtn.addEventListener('click', () => {
   const newInput = document.createElement('div');
   newInput.className = 'd-flex align-items-stretch gap-2 mb-2 car-model-input';
   newInput.innerHTML = `
-    <input type="text" class="text-input flex-grow-1" placeholder="Enter car model">
-    <input type="number" class="text-input" min="1900" max="2050" placeholder="Year">
+    <input type="text" class="text-input flex-grow-1" placeholder="Enter car make" name="car_make[]">
+    <input type="text" class="text-input flex-grow-1" placeholder="Enter car model" name="car_model[]">
+    <input type="number" class="text-input" min="1900" max="2050" placeholder="Year" name="car_year[]">
     <button type="button" class="btn btn-danger d-flex align-items-center justify-content-center remove-model">
       <i class="fa-solid fa-trash text-white"></i>
     </button>
@@ -336,9 +345,22 @@ document.addEventListener('click', e => {
   }
 });
 
+const validateStep = (step) => {
+  const inputs = step.querySelectorAll('input, select');
+  for (const input of inputs) {
+    if (!input.checkValidity()) {
+      input.reportValidity();
+      return false;
+    }
+  }
+  return true;
+}
 
 /* ================= TWO STEP FORM FUNCTIONS ================= */
 nextBtn.addEventListener('click', () => {
+  // Do not proceed to the next step if there are empty inputs
+  if(!validateStep(step1)) return;
+
   step1.style.display = 'none';
   step2.style.display = 'block';
   nextBtn.style.display = 'none';
@@ -354,5 +376,68 @@ prevBtn.addEventListener('click', () => {
   submitBtn.style.display = 'none';
 });
 
+/* ================= INVENTORY FORMS FUNCTION ================= */
+const handleDeleteProduct = () => {
+  const modalEl = document.querySelector('#deleteProductModal');
+  let modal = bootstrap.Modal.getInstance(modalEl);
+  if (!modal) modal = new bootstrap.Modal(modalEl);
+  deleteProductForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
+    const endpoint = deleteProductForm.getAttribute('action');
+    const formData = new FormData(deleteProductForm);
+    console.log([...formData.entries()]);
 
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      if(!result.success) {
+        throw new Error(`An HTTP Error occured: ${ result.message }`);
+      }
+      // Re-fetch inventory to update display
+      fetchInventory();
+      if(modal) modal.hide();
+    } catch (err) {
+      console.error(err);
+    }
+  })
+}
+
+const handleProductForm = (form) => {
+  const modalEl = form.closest('.modal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const endpoint = form.getAttribute('action');
+    const formData = new FormData(form);
+
+    
+    console.log('Endpoint: ' + endpoint);
+    console.log('Form Data: ' + formData);
+    console.log([...formData.entries()]);
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(`An HTTP Error has occured! Message: ${ result.message }`);
+      }
+
+      fetchInventory();
+      // Hide and Reset Form
+      if(modal) modal.hide();
+      form.reset();
+    } catch (err) {
+      console.error(err.message);
+    }
+  })
+}

@@ -13,11 +13,6 @@ filterTiles.forEach(tile => {
         const category = tile.getAttribute('data-category');
         filterCategory.value = category;
 
-        if(category === "all") {
-            fetchProducts();
-            return;
-        }
-
         fetch(`handlers/filter_category_products.php?category=${ encodeURIComponent(category) }`)
             .then(res => res.json())
             .then(data => {
@@ -45,7 +40,8 @@ const fetchProducts = async (page = 1) => {
     try {
         const response = await fetch(`handlers/fetch_inventory.php?limit=${ LIMIT }&page=${ page }`)
         const data = await response.json();
-        console.log(data);
+        console.log(data.inventory);
+        console.log(data.inventory.length);
         if(!data.inventory || data.inventory.length === 0) {
             productContainers.innerHTML = `
                 <p>No products found from the database.</p>

@@ -2,7 +2,9 @@
     // Let the browser know that we are sending JSON as response
     header("Content-Type: application/json");
     include_once __DIR__ . '/../../includes/config/_init.php';  
+    SessionManager::checkSession();
 
+    $Conn = DatabaseConnection::getInstance()->getConnection();
     $Query = isset($_GET['q']) ? InputValidator::sanitizeData($_GET['q']) : '';
     if($Query === '') {
         echo json_encode([]);

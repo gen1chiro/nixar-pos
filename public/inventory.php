@@ -1,5 +1,6 @@
 <?php
   include_once __DIR__ . '/../includes/config/_init.php';  
+
   $PageTitle = "Admin - Inventory | NIXAR POS";
   $CssPath = "assets/css/styles.css";
   $JSPath = "assets/js/scripts.js";
@@ -14,6 +15,11 @@
     'Glass', 'Accessories', 'Tints', 'Mirrors'
   ];
   
+  
+  $Conn = DatabaseConnection::getInstance()->getConnection();
+  $Supplier = new Supplier($Conn);
+  $SupplierData = $Supplier->fetchAll();
+  
   $ProductMaterials = [
     'laminatedGlass' => 'Laminated Glass', 
     'temperedGlass' => 'Tempered Glass', 
@@ -21,7 +27,7 @@
     'plasticAcrylicComposite' => 'Plastic/Acrylic Composite', 
     'rubberMetalComposite' => 'Rubber and Metal Composite'
   ];
-
+  
   include_once '../includes/head.php';
   
   SessionManager::checkSession();
@@ -134,17 +140,15 @@
           <button class="btn" onClick="searchProducts()">Search</button>
         </div>
         
-<!--=================  INVENTORY TABLE  =================-->
+        <!--=================  INVENTORY TABLE  =================-->
         <div class="table-responsive" id="container-inventory-tbl">
           <table class="table table-striped bg-white">
             <thead class="color-primary-red">
             <tr>
               <th>Product Name</th>
-              <th>Car Model</th>
-              <th>Year</th>
-              <th>Car Type</th>
               <th>Category</th>
               <th>Stocks</th>
+              <th>Mark Up</th>
               <th>Price</th>
               <th>Actions</th>
             </tr>
