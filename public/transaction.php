@@ -52,7 +52,7 @@
                             <h6>Rubber</h6>
                             <p class="text-muted"><?= $CategoryCounts['rubber'] ?? 0 ?> Items</p>
                         </div>
-                        <input type="hidden" id="category" name="category" value="all">
+                           <input type="hidden" id="category" name="category" value="all">
                     </div>
                     <!-- =============== PRODUCT CONTAINER =============== -->
                     <div id="product-containers" class="w-full overflow-y-auto row g-3 overflow-x-hidden" style="min-height: 0;">

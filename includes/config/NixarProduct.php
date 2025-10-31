@@ -10,12 +10,15 @@
             try {
                 $Sql = "SELECT np.*, 
                                pm.*,
+                               i.current_stock,
                                ROUND(ps.base_price + (ps.base_price * (np.mark_up / 100)), 2) AS final_price
                         FROM nixar_products np
                         JOIN product_materials pm
                             ON np.product_material_id = pm.product_material_id
                         JOIN product_suppliers ps
                             ON ps.nixar_product_sku = np.nixar_product_sku
+                        JOIN inventory i
+                            ON np.nixar_product_sku = i.product_sku
                         WHERE np.is_deleted = 0
                         LIMIT ? OFFSET ?";
                 // Execute SQL Query
@@ -61,11 +64,10 @@
                 );
 
                 $Stmt->execute();
-                if ($Stmt->affected_rows === 0) {
-                    $Stmt->close();
+                if ($Stmt->errno) {
                     return [
                         'success' => false,
-                        'message' => "No product found with SKU {$UpdateData['nixar_product_sku']}."
+                        'message' => "Database error: {$Stmt->error}"
                     ];
                 }
                 
@@ -75,6 +77,7 @@
                     'message' => "Product with SKU " . $UpdateData['nixar_product_sku'] . " successfully updated."
                 ];
             } catch (Exception $E) {
+                error_log("Error updating product: " . $E->getMessage());
                 return [
                     'success' => false,
                     'message' => "Error: ". $E->getMessage()

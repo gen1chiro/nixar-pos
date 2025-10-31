@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS receipts (
     receipt_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    sale_date DATETIME NOT NULL,
     total_amount FLOAT NOT NULL,
     discount FLOAT NOT NULL DEFAULT 0.0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP()
@@ -53,6 +52,7 @@ CREATE TABLE IF NOT EXISTS nixar_products (
     nixar_product_sku VARCHAR(50) PRIMARY KEY NOT NULL,
     product_material_id INTEGER,
     product_name VARCHAR(60) NOT NULL,
+    product_supplier_id INTEGER NOT NULL,
     product_img_url VARCHAR(255) NOT NULL DEFAULT 'default-product.png',
     mark_up INT NOT NULL,
     is_deleted TINYINT(1) DEFAULT 0,

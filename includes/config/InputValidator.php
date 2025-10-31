@@ -9,7 +9,7 @@
             return htmlspecialchars(trim($Data));
         }
 
-        public static function sanitizeArray($DataArray) {
+        public static function sanitizeArray($DataArray)  {
             $Sanitized = [];
 
             foreach($DataArray as $Key => $Value) {

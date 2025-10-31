@@ -34,7 +34,7 @@
                 $Sql = "UPDATE inventory SET current_stock = ?, 
                     min_threshold = ?, 
                     updated_at = ? 
-                    WHERE nixar_product_sku = ?";
+                    WHERE inventory_id = ?";
                 $Stmt = $this->Conn->prepare($Sql);
                 if (!$Stmt) {
                     throw new Exception('Failed to prepare UPDATE statement: ' . $this->Conn->error);
@@ -42,20 +42,21 @@
 
                 $UpdatedDate = date('Y-m-d H:i:s');
                 $Stmt->bind_param(
-                    "iiss",
+                    "iisi",
                     $InventoryData['stock_count'],
                     $InventoryData['min_threshold'],
                     $UpdatedDate,
-                    $InventoryData['nixar_product_sku']
+                    $InventoryData['inventory_id']
                 );
                 $Stmt->execute();
                 $Stmt->close();
 
                 return [
                     "success" => true,
-                    "message" => "Inventory for {$InventoryData['nixar_product_sku']} successfully updated."
+                    "message" => "Inventory successfully updated."
                 ];
             } catch (Exception $E) {
+                error_log("Error on Inventory: ". $E->getMessage());
                 return [
                     "success" => false,
                     "message" => $E->getMessage()
@@ -93,16 +94,14 @@
         public function searchInventoryByKeyword(string $Query, int $Limit, int $Offset) {
             $Like = "%{$Query}%";
             $MatchSql = "SELECT * FROM product_inventory_view 
-                WHERE car_make_model LIKE ? 
-                  OR type LIKE ? 
-                  OR product_name LIKE ?
+                WHERE product_name LIKE ?
                 ORDER BY current_stock DESC
                 LIMIT ? OFFSET ?";
             $Stmt = $this->Conn->prepare($MatchSql);
             if(!$Stmt) {
                 throw new Exception("Failed to execute query: ". $this->Conn->error);
             }
-            $Stmt->bind_param("sssii", $Like, $Like, $Like, $Limit, $Offset);
+            $Stmt->bind_param("sii", $Like,$Limit, $Offset);
             $Stmt->execute();
             
             $Result = $Stmt->get_result();
@@ -122,14 +121,12 @@
             $Like = "%{$Keyword}%";
             $Sql = "SELECT COUNT(*) AS total
                         FROM product_inventory_view
-                        WHERE car_make_model LIKE ?
-                        OR type LIKE ?
-                        OR product_name LIKE ?";
+                        WHERE product_name LIKE ?";
             $Stmt = $this->Conn->prepare($Sql);
             if(!$Stmt) {
                 throw new Exception("Failed to execute query: ". $this->Conn->error);
             }
-            $Stmt->bind_param("sss", $Like, $Like, $Like);
+            $Stmt->bind_param("s", $Like);
             $Stmt->execute();
             
             $Result = $Stmt->get_result();

@@ -21,26 +21,27 @@
     }
 
     if(!empty($Filters['model'])) {
-        $BaseSql .= " AND car_make_model LIKE ?";
+        $BaseSql .= " AND compatible_cars LIKE ?";
         $Params[] = "%{$Filters['model']}%";
         $Types .= 's';
     }
 
     if(!empty($Filters['type'])) {
-        $BaseSql .= " AND type = ?";
-        $Params[] = $Filters['type'];
+        $BaseSql .= " AND compatible_cars LIKE ?";
+        $Params[] = "%{$Filters['type']}%";
         $Types .= 's';
     }
 
-    if(!empty($Filters['stock'])) {
-        if($Filters['stock'] === 1) {
+    if(isset($Filters['stock'])) {
+        $HasStocks = (int) $Filters['stock'];
+        if($HasStocks=== 1) {
             $BaseSql .= " AND current_stock > 0";
-        } else if($Filters['stock'] === 0) {
+        } else if($HasStocks === 0) {
             $BaseSql .= " AND current_stock = 0";
         }
     };
 
-    if(!empty($Filters['max_range'])) {
+    if(isset($Filters['max_range']) && $PriceRange > 0) {
         $BaseSql .= " AND final_price <= ?";
         $Params[] = (float)$Filters['max_range'];
         $Types .= 'd';
@@ -62,6 +63,9 @@
         $Rows = $Result->fetch_all(MYSQLI_ASSOC);
         $Stmt->close();
 
+        foreach($Rows as &$Row) {
+            $Row['product_img_url'] = $BASE_IMAGE_URL . $Row['product_img_url'];
+        }
 
         echo json_encode([
             'sql' => $BaseSql,

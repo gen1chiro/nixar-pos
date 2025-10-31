@@ -11,7 +11,8 @@
 
         $Sql = "SELECT np.*, 
                        ROUND(ps.base_price + (ps.base_price * (np.mark_up / 100)), 2) AS final_price,
-                       pm.category
+                       pm.category,
+                       i.current_stock
                 FROM nixar_products np
                 JOIN product_materials pm
                     ON np.product_material_id = pm.product_material_id

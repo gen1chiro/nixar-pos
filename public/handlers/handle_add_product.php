@@ -77,7 +77,8 @@
             // Insert car models
             $ProductCompatibleId = [];
             for ($I = 0; $I < count($CompatibleCars); $I++) {
-                $ProductCompatibleId[] = $Model->add($CompatibleCars[$I]);
+                $CarModelEntry = $Model->add($CompatibleCars[$I]);
+                $ProductCompatibleId[] = $CarModelEntry['car_model_id'];
             }
             // Insert Product Compatibility
             foreach ($ProductCompatibleId as $CompatibleId) {

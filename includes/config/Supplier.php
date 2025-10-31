@@ -32,16 +32,17 @@
 
         public function updateProductSupplier($SupplierInfo) {
             try {
-                $Sql = "UPDATE product_suppliers SET supplier_id = ?, base_price = ? WHERE nixar_product_sku = ?";
+                $Sql = "UPDATE product_suppliers SET supplier_id = ?, base_price = ? WHERE product_supplier_id = ?";
                 $Stmt = $this->Conn->prepare($Sql);
                 if (!$Stmt) {
                     throw new Exception('Failed to prepare INSERT statement: ' . $this->Conn->error);
                 }
+
                 $Stmt->bind_param(
-                    "ids",
+                    "idi",
                     $SupplierInfo['supplier_id'],
                     $SupplierInfo['base_price'],
-                    $SupplierInfo['nixar_product_sku']
+                    $SupplierInfo['product_supplier_id']
                 );
                 $Stmt->execute();
                 $Stmt->close();
