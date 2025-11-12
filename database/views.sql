@@ -40,6 +40,14 @@ GROUP BY np.nixar_product_sku, ps.product_supplier_id;
 
 -- ============== INVENTORY REPORT LIST METRICS ==============
 
+CREATE OR REPLACE VIEW count_low_stock_items_view AS  
+SELECT  
+    COUNT(np.nixar_product_sku) AS low_stock
+FROM inventory i  
+JOIN nixar_products np ON i.nixar_product_sku = np.nixar_product_sku 
+JOIN product_materials pm ON np.product_material_id = pm.product_material_id 
+WHERE i.current_stock <= i.min_threshold 
+
 CREATE OR REPLACE VIEW low_stock_items_view AS  
 SELECT  
     np.nixar_product_sku, 
@@ -64,15 +72,28 @@ ORDER BY total_quantity_sold DESC
 LIMIT 5; 
 
 CREATE OR REPLACE VIEW best_selling_item_by_revenue_view AS 
-SELECT  
-    np.product_name, 
-    ROUND(SUM(rd.quantity * np.mark_up), 2) AS total_revenue  
-FROM receipt_details rd  
-JOIN nixar_products np ON rd.nixar_product_sku = np.nixar_product_sku 
-JOIN product_materials pm ON np.product_material_id = pm.product_material_id 
-GROUP BY np.nixar_product_sku, np.product_name 
-ORDER BY total_revenue DESC 
-LIMIT 5; 
+SELECT 
+	sub.category,
+    sub.product_name,
+    SUM(sub.final_price) AS grouped_price
+FROM receipt_details AS rd
+LEFT JOIN 
+    (
+     	SELECT
+        	np.nixar_product_sku,
+            pm.category,
+            np.product_name,
+            ROUND(ps.base_price + (ps.base_price * (np.mark_up / 100)), 2) AS final_price
+        FROM nixar_products AS np
+        LEFT JOIN product_suppliers AS ps
+        	ON np.product_supplier_id = ps.product_supplier_id
+        LEFT JOIN product_materials AS pm
+        	ON np.product_material_id = pm.product_material_id
+    ) AS sub
+ON rd.nixar_product_sku = sub.nixar_product_sku
+GROUP BY rd.nixar_product_sku
+ORDER BY grouped_price DESC 
+LIMIT 5;
 
 <<<<<<< HEAD
 

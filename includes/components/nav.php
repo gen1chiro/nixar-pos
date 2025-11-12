@@ -34,7 +34,7 @@
                 <li class="mobile-nav-link">Inventory</li>
                 <li class="mobile-nav-link">Transactions</li>
                 <li class="nav-link py-2 px-4 rounded-pill">
-                    <a href="../admin/reports.php">Reports</a>
+                    <a href="../reports.php">Reports</a>
                 </li>   
                 <li class="mobile-nav-link">Log Out</li>
             </ul>

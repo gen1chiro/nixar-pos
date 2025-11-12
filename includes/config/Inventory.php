@@ -23,6 +23,7 @@
                     'message' => "Successfully created inventory for {$InventoryMeta['product_sku']}"
                 ];
             } catch (Exception $E) {
+                error_log("Inventory insert error: " . $E->getMessage());
                 return [
                     "success" => false,
                     "message" => $E->getMessage()
@@ -64,6 +65,30 @@
             }
         }
 
+        public function reduceStock($StockData) {
+            try {
+                $Now = date('Y-m-d H:i:s');
+                $Sql = "UPDATE inventory SET current_stock = current_stock - ?, updated_at = ? WHERE inventory_id = ?";
+                $Stmt = $this->Conn->prepare($Sql);
+                if(!$Stmt) {
+                    throw new Exception("Failed to execute query: ". $this->Conn->error);
+                }
+                $Stmt->bind_param("isi", $StockData['quantity'], $Now, $StockData['inventory_id']);
+                $Stmt->execute();
+                $Stmt->close();
+
+                return [
+                    'success' => true,
+                    'message' => "Stock updated successfully."
+                ];
+            } catch (Exception $E) {
+                error_log("Error in updating stock: {$E->getMessage()}");
+                return [
+                    'success' => false,
+                    'message' => $E->getMessage()
+                ];
+            }
+        } 
         public function fetchInventory(?int $Limit = null, int $Offset = 0): array {
             $Sql = "SELECT * FROM product_inventory_view ORDER BY current_stock DESC, product_name ASC";
             if ($Limit !== null) {
@@ -134,6 +159,70 @@
             $Stmt->close();
             return (int)$Row['total'];
         }
+
+        public function salesReportMetrics(){
+            $Sql = "SELECT * FROM sales_report_view";
+            $Result = $this->Conn->query($Sql);
+            $Rows = $Result->fetch_assoc();
+            return $Rows; 
+        }
+
+        public function salesListMetricsByCategory(){
+            $Sql = "SELECT * FROM category_performance_view";
+            $Result = $this->Conn->query($Sql);
+            $Rows = $Result->fetch_all(MYSQLI_ASSOC);
+            return $Rows; 
+        }
+
+        public function salesListMetricsByTime(){
+            $Sql = "SELECT * FROM sales_by_time_view";
+            $Result = $this->Conn->query($Sql);
+            $Rows = $Result->fetch_all(MYSQLI_ASSOC);
+            return $Rows; 
+        }
+        
+        public function inventoryListMetricsMostSold(){
+            $Sql = "SELECT * FROM most_sold_item_by_qty_view";
+            $Result = $this->Conn->query($Sql);
+            $Rows = $Result->fetch_all(MYSQLI_ASSOC);
+            return $Rows; 
+        }
+
+        public function inventoryListMetricsBestSelling(){
+            $Sql = "SELECT * FROM best_selling_item_by_revenue_view";
+            $Result = $this->Conn->query($Sql);
+            $Rows = $Result->fetch_all(MYSQLI_ASSOC);
+            return $Rows; 
+        }
+        
+        public function inventoryListMetricsStock(){
+            $Sql = "SELECT * FROM low_stock_items_view";
+            $Result = $this->Conn->query($Sql);
+            $Rows = $Result->fetch_all(MYSQLI_ASSOC);
+            return $Rows;
+        }
+
+        public function inventoryMetricsBestSellingItem(){
+            $Sql = "SELECT * FROM best_selling_item_by_revenue_view LIMIT 1";
+            $Result = $this->Conn->query($Sql);
+            $Row = $Result->fetch_assoc();
+            return $Row;
+        }
+        
+        public function inventoryMetricsSold(){
+            $Sql = "SELECT * FROM most_sold_item_by_qty_view LIMIT 1";
+            $Result = $this->Conn->query($Sql);
+            $Row = $Result->fetch_assoc();
+            return (string)$Row['product_name'];
+        }
+
+        public function inventoryMetricsStock(){
+            $Sql = "SELECT * FROM count_low_stock_items_view";
+            $Result = $this->Conn->query($Sql);
+            $Row = $Result->fetch_assoc();
+            return $Row;
+        }
+        
     }
 
 ?>

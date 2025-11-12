@@ -67,6 +67,7 @@ const createProductCard = (data) => {
              data-name="${ data.product_name }"
              data-price="${ data.final_price }"
              data-current-stock="${ data.current_stock }"
+             data-inventory-id="${ data.inventory_id }"
             >
             <div class="w-100 d-flex flex-column align-items-center gap-2">
                 <div class="w-100 ratio ratio-4x3">
@@ -115,7 +116,8 @@ const extractCardData = (card) => {
         sku: card.dataset.sku,
         name: card.dataset.name,
         price: card.dataset.price,
-        current_stock: card.dataset.currentStock
+        current_stock: card.dataset.currentStock,
+        inventory_id: card.dataset.inventoryId
     };
 };
 
@@ -309,6 +311,7 @@ const handleCheckout = async (checkoutForm, endpoint, checkoutData) => {
         modal.hide();
         checkoutForm.reset();
         console.log('Checkout success:', result.message);
+        fetchProducts();
     } catch(err) {
         console.error(err.message);
     }

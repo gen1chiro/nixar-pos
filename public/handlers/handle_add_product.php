@@ -59,7 +59,7 @@
                 'mark_up' => $Markup
             ];
             $Result = $Product->create($ProductMeta);
-            error_log("Product creation status: " . var_export($Status, true));
+            error_log("Product creation status: " . var_export($Result, true));
             if (!$Result['success']) {
                 throw new Exception('Failed to add product.');
             }

@@ -34,6 +34,7 @@
             $Transaction = new Transaction($Conn);
             $Customer = new Customer($Conn);
             $CarModel = new CarModel($Conn);
+            $Inventory = new Inventory($Conn);
             // Perform INSERT on table `receipts`
             $ReceiptIdRef = $Transaction->addReceipt($ReceiptData);
             if (!$ReceiptIdRef['success']) {
@@ -41,12 +42,15 @@
             }
             // Perform INSERT on table `receipt_details `for each `checkout_products`
             foreach ($Sanitized['checkout_products'] as $ReceiptEntry) {
+                $Quantity = (int)$ReceiptEntry['quantity'];
                 $ReceiptProductDetail = [
                     'receipt_id' => $ReceiptIdRef['receipt_id'],
                     'nixar_product_sku' => $ReceiptEntry['sku'],
-                    'quantity' => (int)$ReceiptEntry['quantity']
+                    'quantity' => $Quantity
                 ];
                 $Transaction->addReceiptDetail($ReceiptProductDetail);
+                // Perform UPDATE in table `inventory`
+                $Inventory->reduceStock(['quantity' => $Quantity, 'inventory_id' => $ReceiptEntry['inventory_id']]);
             }
             // Perform INSERT on table `customers`
             $CustIdRef = $Customer->add($CustomerData);
