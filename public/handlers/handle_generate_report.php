@@ -8,6 +8,11 @@
     $Start = !empty($_GET['start']) ? InputValidator::sanitizeData($_GET['start']) : '2000-01-01 00:00:00';
     $End   = !empty($_GET['end'])   ? InputValidator::sanitizeData($_GET['end']) : date("Y-m-d") . " 23:59:59";
 
+    // YYYY-MM-DD
+    if ($End && strlen($End) === 10) {
+        $End .= ' 23:59:59';
+    }
+
     $Conn = DatabaseConnection::getInstance()->getConnection();
     try {
         $Transaction = new Transaction($Conn);

@@ -79,7 +79,8 @@ const createProductCard = (data) => {
             <div class="w-100 d-flex align-items-center justify-content-between py-2">
                 <h3>₱ ${ data.final_price }</h3>
                 <div class="position-relative d-flex align-items-center">
-                    <button class="transaction-btn add-btn position-absolute start-0">
+                    <button class="transaction-btn add-btn position-absolute start-0"
+                    ${data.current_stock <= 0 ? 'disabled' : ''}>
                         <i class="fa-solid fa-plus"></i>
                     </button>
                     <div class="quantity-display px-4 py-1 rounded-pill text-center" id="selectedCartStock">
@@ -168,15 +169,19 @@ const attachCartEventListeners = () => {
             const productData = extractCardData(btn.closest('.product-card'));
             
             // Initial check if we have stock to be added for our cart
-            btn.disabled = parseInt(productData.current_stock) === 0;
+            const selectedQty = cart[productData.sku]?.quantity || 0;
+            if (parseInt(productData.current_stock) <= 0 || selectedQty >= parseInt(productData.current_stock)) {
+                btn.disabled = true;
+                return;
+            }
             
             addToCart(productData);
             updateQuantityDisplay(btn, productData.sku);
             updateOrderContainer();
         
-            // Re-check by fetching the updated count
-            const currentSelectedCount = parseInt(document.getElementById('selectedCartStock').textContent);
-            btn.disabled = currentSelectedCount >= productData.current_stock;
+            if (cart[productData.sku].quantity >= parseInt(productData.current_stock)) {
+                btn.disabled = true;
+            }
         });
     });
 
@@ -189,9 +194,9 @@ const attachCartEventListeners = () => {
 
             // Re-enable add button if selected stock count is below current stocks
             const addBtn = btn.closest('.product-card').querySelector('.add-btn');
-            const currentSelectedCount = parseInt(document.getElementById('selectedCartStock').textContent);
+            const selectedQty = cart[productData.sku]?.quantity || 0;
 
-            if (currentSelectedCount < parseInt(productData.current_stock)) {
+            if (selectedQty < parseInt(productData.current_stock)) {
                 addBtn.disabled = false;
             }
         });
@@ -295,6 +300,7 @@ const handleCheckout = async (checkoutForm, endpoint, checkoutData) => {
 
         const result = await response.json();
         if (!result.success) {
+            console.error(result.message || 'Checkout failed.');
             throw new Error(result.message || 'Checkout failed.');
         }
 

@@ -59,7 +59,7 @@
             $LoginPage = 'index.php';
             $IsLoggedIn = self::has('logged_in') && self::get('logged_in') === true;
             $Role = self::get('role') ?? null;
-            $AdminPages = ['reports.php', 'supplier.php', 'reports-preview.php'];
+            $AdminPages = ['reports.php', 'supplier.php', 'report-preview.php'];
             // Redirect to login page since there are no active users or sessions yet
             if (!$IsLoggedIn || !$Role) {
                 if ($CurrentPage !== $LoginPage) {
