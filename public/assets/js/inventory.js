@@ -191,7 +191,7 @@ const fetchInventory = async (page = 1) => {
   }
 }
 
-const updatePagination = (totalPages, currentPage) => {
+const updatePagination = (totalPages, currentPage, isFiltered = false) => {
   let htmlString = '';
   // Render Previous button if current page is not the first page
   if (currentPage > 1) {
@@ -239,6 +239,11 @@ const updatePagination = (totalPages, currentPage) => {
         return;
       }
 
+      if (isFiltered) {
+        searchByFilters(page);
+        return;
+      }
+
       if(queryString) searchProducts(page);
       else fetchInventory(page);
     })
@@ -278,7 +283,7 @@ const searchByFilters = async (page = 1) => {
     }
 
     renderRows(filtered.inventory);
-    updatePagination(filtered.totalPages, filtered.currentPage);
+    updatePagination(filtered.totalPages, filtered.currentPage, true);
   } catch (err) {
     showToast("Failed to filter products", err.message, 'error');
     console.error(err.message)
@@ -291,7 +296,7 @@ const buildFilterParams = ({ productMaterial, carModel, carType, isInStock, pric
   if(productMaterial) filter.material = productMaterial;
   if(carModel) filter.model = carModel;
   if(carType) filter.type = carType;
-  if(isInStock) filter.stock = isInStock === "inStock" ? 1 : 0;
+  if(isInStock) filter.stock = isInStock;
   if(priceRange) filter.max_range = priceRange;
 
   params = new URLSearchParams(filter).toString();

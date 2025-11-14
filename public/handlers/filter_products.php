@@ -14,51 +14,52 @@
     $Page = isset($Filters['page']) ? (int)$Filters['page'] : 1;
     $Offset = ($Page - 1) * $Limit; 
 
-    $BaseSql = "SELECT * from product_inventory_view WHERE 1 = 1";
+    $WhereSql = "WHERE 1 = 1";
     $Params = [];
     $Types = '';
 
     if(!empty($Filters['material'])) {
-        $BaseSql .= " AND material_name = ?";
+        $WhereSql .= " AND material_name = ?";
         $Params[] = $Filters['material'];
         $Types .= 's';
     }
 
     if(!empty($Filters['model'])) {
-        $BaseSql .= " AND compatible_cars LIKE ?";
+        $WhereSql .= " AND compatible_cars LIKE ?";
         $Params[] = "%{$Filters['model']}%";
         $Types .= 's';
     }
 
     if(!empty($Filters['type'])) {
-        $BaseSql .= " AND compatible_cars LIKE ?";
+        $WhereSql .= " AND compatible_cars LIKE ?";
         $Params[] = "%{$Filters['type']}%";
         $Types .= 's';
     }
 
-    if(isset($Filters['stock'])) {
-        $HasStocks = (int) $Filters['stock'];
-        if($HasStocks=== 1) {
-            $BaseSql .= " AND current_stock > 0";
-        } else if($HasStocks === 0) {
-            $BaseSql .= " AND current_stock = 0";
+    if(!empty($Filters['stock'])) {
+        $Stock = $Filters['stock'];
+        if($Stock === 'inStock') {
+            $WhereSql .= " AND current_stock > 0";
+        } else if ($Stock === 'notInStock') {
+            $WhereSql .= " AND current_stock = 0";
         }
     };
 
     if(isset($Filters['max_range']) && $Filters['max_range'] > 0) {
-        $BaseSql .= " AND final_price <= ?";
+        $WhereSql .= " AND final_price <= ?";
         $Params[] = (float)$Filters['max_range'];
         $Types .= 'd';
     }
 
-    $BaseSql .= " ORDER BY current_stock DESC LIMIT ? OFFSET ?";
+    $BaseSql = "SELECT * from product_inventory_view {$WhereSql} ORDER BY current_stock DESC LIMIT ? OFFSET ?";
     $Params[] = $Limit;
     $Params[] = $Offset;
     $Types .= 'ii';
+
     try {
         $Stmt = $Conn->prepare($BaseSql);
         if(!$Stmt) {
-            throw new Exception("Failed to execure query" . $this->Conn->error);
+            throw new Exception("Failed to execute FETCH query" . $Conn->error);
         }
         $Stmt->bind_param($Types, ...$Params);
         $Stmt->execute();
@@ -71,17 +72,37 @@
             $Row['product_img_url'] = $BASE_IMAGE_URL . $Row['product_img_url'];
         }
 
+        $CountSql = "SELECT COUNT(*) AS total FROM product_inventory_view {$WhereSql}";
+        $CountStmt = $Conn->prepare($CountSql);
+        if(!$CountStmt) {
+            throw new Exception("Failed to execute COUNT query" . $Conn->error);
+        }
+
+        $TrimmedTypes = rtrim($Types, 'ii');
+        $TrimmedParams = array_slice($Params, 0, -2);
+        if (!empty($TrimmedTypes)) {
+            $CountStmt->bind_param($TrimmedTypes, ...$TrimmedParams);
+        }
+        $CountStmt->execute();
+        $TotalRows = $CountStmt->get_result()->fetch_assoc()['total'];
+        $CountStmt->close();
+
+        $TotalPages = max(1, ceil($TotalRows / $Limit));
+
         echo json_encode([
+            'success' => true,
             'sql' => $BaseSql,
-            'params' => $Params,
-            'types' => $Types,
+            'count_sql' => $CountSql,
+            'totalRows'   => $TotalRows,
+            'totalPages'  => $TotalPages,
+            'currentPage' => $Page,
             'inventory' => $Rows
         ]);
     } catch (Exception $E) {
         error_log("Error: " . $E->getMessage());
         error_log("Trace: " . $E->getTraceAsString());
         echo json_encode([
-            'status' => 'error',
+            'success' => false,
             'message' => $E->getMessage()
         ]);
     }
