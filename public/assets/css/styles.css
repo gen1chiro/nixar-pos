@@ -6,6 +6,14 @@
     - John Roland L. Octavio
 */
 
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../font/satoshi.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
 :root {
     --primary-red: #BF3B3B;
     --deep-red: #803737;
@@ -24,6 +32,7 @@
 
 * {
 	box-sizing: border-box;
+    font-family: 'Satoshi', sans-serif;
 }
 
 body {

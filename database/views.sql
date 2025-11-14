@@ -94,6 +94,9 @@ GROUP BY rd.nixar_product_sku
 ORDER BY grouped_price DESC 
 LIMIT 5;
 
+<<<<<<< HEAD
+
+=======
 -- ============== SALES REPORT METRICS ==================
 CREATE OR REPLACE VIEW sales_report_view AS 
 SELECT 
@@ -121,3 +124,4 @@ FROM receipts
 GROUP BY hour_label, HOUR(created_at)
 ORDER BY HOUR(created_at)
 LIMIT 5;
+>>>>>>> 578fba1fe653e6580f4f3be1619441668f64ae37
