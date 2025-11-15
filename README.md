@@ -14,6 +14,13 @@ NIXAR POS (Point of Sales) is a web-based application designed to manage sales, 
 
 ---
 
+## Demo Login Credentials
+| Role       | Username        | Password   |
+|------------|-----------------|------------|
+| Admin      | raeantamayo     | admin123   |
+| Cashier    | sunny123        | cashier123 |
+
+--- 
 
 ## Features
 - Session Management

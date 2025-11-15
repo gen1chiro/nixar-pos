@@ -10,7 +10,8 @@
     header('Content-Type: application/json');
     include_once __DIR__ . '/../../includes/config/_init.php';  
     SessionManager::checkSession();
-
+    SessionManager::requireAdminAccess();
+    
     $Conn = DatabaseConnection::getInstance()->getConnection();
     try {
         $ProductSupplierId = $_GET['product_supplier_id'];

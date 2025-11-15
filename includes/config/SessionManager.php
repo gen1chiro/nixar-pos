@@ -57,14 +57,13 @@
 
             $CurrentPage = basename($_SERVER['PHP_SELF']);
             $LoginPage = 'index.php';
-            $IsLoggedIn = self::has('logged_in') && self::get('logged_in') === true;
+            $IsLoggedIn = self::isLoggedIn();
             $Role = self::get('role') ?? null;
             $AdminPages = ['reports.php', 'supplier.php', 'report-preview.php'];
             // Redirect to login page since there are no active users or sessions yet
             if (!$IsLoggedIn || !$Role) {
                 if ($CurrentPage !== $LoginPage) {
-                    header("Location: /nixar-pos/public/index.php");
-                    exit;
+                    self::redirect('index.php');
                 }
             }
 
@@ -77,13 +76,41 @@
             $PageToDirect = $DefaultPages[$Role] ?? 'index.php';
 
             if ($IsLoggedIn && $CurrentPage === $LoginPage) {
-                header("Location: /nixar-pos/public/{$PageToDirect}");
-                exit;
+                self::redirect($PageToDirect);
             }
 
             // Cashier is redirected to its main page when it attemps to access admin pages
             if ($Role === 'cashier' && in_array($CurrentPage, $AdminPages)) {
-                header("Location: /nixar-pos/public/{$PageToDirect}");
+                self::redirect($PageToDirect);
+            }
+        }
+
+        public static function redirect($Target) {
+            header("Location: /nixar-pos/public/{$Target}");
+            exit;
+        }
+
+        public static function isLoggedIn() {
+            return self::has('logged_in') && self::get('logged_in') === true;
+        }
+
+        public static function requireAdminAccess() {
+            self::getInstance();
+
+            $IsLoggedIn = self::isLoggedIn();
+            $Role = self::get('role');
+
+            if (!$IsLoggedIn) {
+                http_response_code(401);
+                echo json_encode(['success' => false, 'message' => 'unauthenticated']);
+                exit;
+            }
+
+            if ($Role !== 'admin') {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Forbidden access.'
+                ]);
                 exit;
             }
         }

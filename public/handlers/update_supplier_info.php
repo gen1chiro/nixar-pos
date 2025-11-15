@@ -9,7 +9,8 @@
     header('Content-Type: application/json');
     include_once __DIR__ . '/../../includes/config/_init.php';  
     SessionManager::checkSession();
-
+    SessionManager::requireAdminAccess();
+    
     $Conn = DatabaseConnection::getInstance()->getConnection();
     try {
         $Raw = file_get_contents('php://input');

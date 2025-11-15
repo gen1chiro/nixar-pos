@@ -6,9 +6,9 @@
 
     include_once __DIR__ . '/../../includes/config/_init.php';  
     SessionManager::checkSession();
-
+    SessionManager::requireAdminAccess();
+    
     $Conn = DatabaseConnection::getInstance()->getConnection();
-
     try {
         $Inventory = new Inventory($Conn);
         $sales_limetric_time = $Inventory->salesListMetricsByTime();

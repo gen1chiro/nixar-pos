@@ -7,7 +7,8 @@
     header("Content-Type: application/json");
     include_once __DIR__ . '/../../includes/config/_init.php';  
     SessionManager::checkSession();
-
+    SessionManager::requireAdminAccess();
+    
     $Conn = DatabaseConnection::getInstance()->getConnection();
     $BasePrice = isset($_POST['base_price']) ? floatval($_POST['base_price']) : null;
     $ProductSupplierId = isset($_POST['product_supplier_id']) ? intval($_POST['product_supplier_id']) : null;

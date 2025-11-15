@@ -6,6 +6,8 @@
     header("Content-Type: application/json");
     include_once __DIR__ . '/../../includes/config/_init.php';  
     SessionManager::checkSession();
+    SessionManager::requireAdminAccess();
+    
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         try {
             $Conn = DatabaseConnection::getInstance()->getConnection();

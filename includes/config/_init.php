@@ -1,5 +1,6 @@
 <?php 
-    // Import all config and utils
+    // Author: John Roland Octavio
+    // Loads core utilities, defines base image URL, and lists car types and product categories.
     require_once __DIR__ . '/DatabaseConnection.php';
     require_once __DIR__ . '/SessionManager.php';
     require_once __DIR__ . '/InputValidator.php';

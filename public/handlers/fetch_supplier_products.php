@@ -13,7 +13,8 @@
 
     include_once __DIR__ . '/../../includes/config/_init.php';  
     SessionManager::checkSession();
-
+    SessionManager::requireAdminAccess();
+    
     $Conn = DatabaseConnection::getInstance()->getConnection();
     try {
         $SupplierId = $_GET['supplier_id'];

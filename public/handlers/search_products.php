@@ -16,7 +16,7 @@
         exit;
     }
 
-    error_log("Query: $Query");
+    // error_log("Query: $Query");
     try {
         $Limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
         $Page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
