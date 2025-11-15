@@ -1,4 +1,7 @@
 <?php 
+    /** Author: John Roland Octavio
+     *  Customer manages customer lookup and insertion: it detects existing customers and inserts new ones while returning consistent success/error responses.
+     */
     class Customer {
         private mysqli $Conn;
 

@@ -1,4 +1,7 @@
 <?php 
+    /** Author: John Roland Octavio
+     *  Utilities: sanitizes input and handles image uploads to public/assets/img/uploads/.
+     */
     class InputValidator {
         /**
          * Trim and escape special HTML characters in a string.

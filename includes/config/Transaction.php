@@ -1,4 +1,7 @@
 <?php 
+    /** Author: John Roland Octavio
+     * Transaction handles creating receipts and transactions, adding receipt details, and retrieving transactions within a given date range. 
+    */
     class Transaction {
         private mysqli $Conn;
 

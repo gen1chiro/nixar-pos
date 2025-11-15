@@ -1,4 +1,7 @@
 <?php 
+    /** Author: John Roland Octavio
+     *  DatabaseConnection provides a singleton mysqli connection to the application's database.
+     */
     class DatabaseConnection {
         private static ?DatabaseConnection $Instance = null;
         private mysqli $Connection;

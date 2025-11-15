@@ -1,4 +1,7 @@
 <?php 
+    /** Author: John Roland Octavio
+     * NixarProduct handles product CRUD, paginated listing, searching, pricing calculation, compatibility mappings, and related material/supplier lookups. 
+    */
     class NixarProduct {
         private mysqli $Conn;
 

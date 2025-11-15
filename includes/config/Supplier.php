@@ -1,4 +1,7 @@
 <?php 
+/** Author: John Roland Octavio
+ * Supplier manages supplier records and supplier–product relationships, offering paginated listing, CRUD operations, base price updates, and retrieval of products supplied by a given supplier. 
+*/
 class Supplier {
     private mysqli $Conn;
 

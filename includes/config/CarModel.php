@@ -1,4 +1,7 @@
 <?php 
+    /** Author: John Roland Octavio
+     *  CarModel manages car model records and customer car details by detecting existing models, inserting unique models, and linking customer vehicles while handling errors and logging.
+     */
     class CarModel {
         private mysqli $Conn;
 

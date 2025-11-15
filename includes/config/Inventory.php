@@ -1,4 +1,7 @@
 <?php 
+    /** Author: John Roland Octavio
+     *  Inventory manages product stock creation, updates, reductions, searches, and exposes sales/inventory reporting metrics using prepared statements and DB views. 
+    */
     class Inventory {
         private mysqli $Conn;
 
