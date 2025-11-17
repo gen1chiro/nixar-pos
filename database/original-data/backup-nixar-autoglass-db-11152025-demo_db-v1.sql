@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2025 at 11:56 AM
+-- Generation Time: Nov 15, 2025 at 07:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -77,7 +77,23 @@ INSERT INTO `car_details` (`car_detail_id`, `customer_id`, `car_model_id`, `plat
 (24, 514, 4, 'NOP-4567'),
 (25, 515, 5, 'QRS-7890'),
 (26, 515, 1, 'QRS-7891'),
-(27, 517, 6, 'NDI-7831');
+(27, 517, 6, 'NDI-7831'),
+(28, 519, 9, 'XYZ-2902'),
+(29, 521, 9, 'XYZ-2902'),
+(30, 523, 10, 'NVC-3213'),
+(31, 525, 10, 'NVC-3213'),
+(32, 527, 11, 'FAS-1239'),
+(33, 529, 6, 'NDI-7831'),
+(34, 531, 6, 'NDI-7831'),
+(35, 533, 6, 'NDI-7831'),
+(36, 535, 12, 'NDI-7831'),
+(37, 537, 6, 'NDI-7831'),
+(38, 539, 6, 'NDI-7831'),
+(39, 541, 6, 'NDI-7831'),
+(40, 543, 6, 'NDI-7831'),
+(41, 545, 2, 'DAS-1231'),
+(42, 547, 2, 'FAS-1239'),
+(43, 549, 14, 'FAS-1239');
 
 -- --------------------------------------------------------
 
@@ -104,7 +120,14 @@ INSERT INTO `car_models` (`car_model_id`, `make`, `model`, `year`, `type`) VALUE
 (4, 'Nissan', 'Navara', 2022, 'Pickup'),
 (5, 'Ford', 'Ranger', 2023, 'Pickup'),
 (6, 'Toyota', 'Rush', 2019, 'SUV'),
-(7, 'Nissan', 'Terra', 2022, 'SUV');
+(7, 'Nissan', 'Terra', 2022, 'SUV'),
+(8, 'Toyota', 'Rush', 2019, 'Sedan'),
+(9, 'Suzuki', 'Ertiga', 2019, 'SUV'),
+(10, 'Chevrolet', 'Aveo', 2009, 'Sedan'),
+(11, 'Ford', 'Raptor', 2022, 'Pickup'),
+(12, 'Toyota', 'Fortuner', 2017, 'SUV'),
+(13, 'Toyota', 'Hilux', 2022, 'Pickup'),
+(14, 'Toyota', 'Raptor', 2021, 'Pickup');
 
 -- --------------------------------------------------------
 
@@ -162,7 +185,39 @@ INSERT INTO `customers` (`customer_id`, `name`, `email`, `address`, `phone_no`) 
 (514, 'Bea Navarro', 'bea.navarro@example.com', '99 Pioneer St., Mandaluyong', '09304568901'),
 (515, 'Miguel Ramos', 'miguel.ramos@example.com', '150 Katipunan Ext., QC', '09315679012'),
 (516, 'John Octavio', 'mygmail123@gmail.com', 'Alijis Bacolod City', '9956446924'),
-(517, 'John Octavio', 'mygmail123@gmail.com', 'Alijis Bacolod City', '9956446924');
+(517, 'John Octavio', 'mygmail123@gmail.com', 'Alijis Bacolod City', '9956446924'),
+(518, 'Toby Javelona', 'toby123@gmail.com', 'Taculing, Bacolod City', '9123456789'),
+(519, 'Toby Javelona', 'toby123@gmail.com', 'Taculing, Bacolod City', '9123456789'),
+(520, 'Toby Javelona', 'toby123@gmail.com', 'Taculing, Bacolod City', '9123123877'),
+(521, 'Toby Javelona', 'toby123@gmail.com', 'Taculing, Bacolod City', '9123123877'),
+(522, 'Sunny Eljohn', 'greenforot123@gmail.com', 'La Carlota City', '9123123242'),
+(523, 'Sunny Eljohn', 'greenforot123@gmail.com', 'La Carlota City', '9123123242'),
+(524, 'Sunny Eljohn', 'greenforot123@gmail.com', 'La Carlota City', '9123123242'),
+(525, 'Sunny Eljohn', 'greenforot123@gmail.com', 'La Carlota City', '9123123242'),
+(526, 'Josh Dane Labs', 'dasjihdajs@gmail.com', 'Cavite City', '9123123129'),
+(527, 'Josh Dane Labs', 'dasjihdajs@gmail.com', 'Cavite City', '9123123129'),
+(528, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(529, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(530, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(531, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(532, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(533, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(534, 'Jul Leo Javellana', 'generalboring@gmail.com', 'Brgy. Poblacion, Bago City', '9973812674'),
+(535, 'Jul Leo Javellana', 'generalboring@gmail.com', 'Brgy. Poblacion, Bago City', '9973812674'),
+(536, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(537, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(538, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(539, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(540, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(541, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(542, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(543, 'John Roland Octavio', 'mygmail123@gmail.com', 'Alijis, Bacolod City', '9956446924'),
+(544, 'Jul Leo Javellana', 'generalboring@gmail.com', 'Brgy. Poblacion, Bago City', '9123123129'),
+(545, 'Jul Leo Javellana', 'generalboring@gmail.com', 'Brgy. Poblacion, Bago City', '9123123129'),
+(546, 'Jul Leo Javellana', 'generalboring@gmail.com', 'Brgy. Poblacion, Bago City', '9123123877'),
+(547, 'Jul Leo Javellana', 'generalboring@gmail.com', 'Brgy. Poblacion, Bago City', '9123123877'),
+(548, 'Josh Dane Labs', 'mygmail123@gmail.com', 'Cavite City', '9123123877'),
+(549, 'Josh Dane Labs', 'mygmail123@gmail.com', 'Cavite City', '9123123877');
 
 -- --------------------------------------------------------
 
@@ -183,12 +238,12 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`inventory_id`, `nixar_product_sku`, `current_stock`, `min_threshold`, `updated_at`) VALUES
-(1, 'NX-GLS-001', 8, 2, '2025-10-13 09:00:00'),
-(2, 'NX-GLS-002', 10, 3, '2025-10-13 09:05:00'),
+(1, 'NX-GLS-001', 6, 2, '2025-11-14 15:25:15'),
+(2, 'NX-GLS-002', 7, 3, '2025-11-14 16:21:16'),
 (3, 'NX-GLS-003', 6, 2, '2025-10-13 09:10:00'),
 (4, 'NX-GLS-004', 15, 4, '2025-10-13 09:15:00'),
 (5, 'NX-GLS-005', 14, 4, '2025-10-13 09:20:00'),
-(6, 'NX-GLS-006', 3, 2, '2025-10-13 09:25:00'),
+(6, 'NX-GLS-006', 0, 2, '2025-11-14 14:20:09'),
 (7, 'NX-GLS-007', 21, 2, '2025-10-13 09:25:00'),
 (8, 'NX-MIR-001', 20, 5, '2025-10-13 09:30:00'),
 (9, 'NX-MIR-002', 18, 5, '2025-10-13 09:35:00'),
@@ -196,11 +251,13 @@ INSERT INTO `inventory` (`inventory_id`, `nixar_product_sku`, `current_stock`, `
 (11, 'NX-MIR-004', 10, 3, '2025-10-13 09:45:00'),
 (12, 'NX-TNT-001', 30, 8, '2025-10-13 09:50:00'),
 (13, 'NX-TNT-002', 28, 8, '2025-10-13 09:55:00'),
-(14, 'NX-TNT-003', 25, 8, '2025-10-13 10:00:00'),
-(15, 'NX-TNT-004', 22, 8, '2025-10-13 10:05:00'),
+(14, 'NX-TNT-003', 23, 8, '2025-11-14 15:22:12'),
+(15, 'NX-TNT-004', 17, 8, '2025-11-14 16:21:16'),
 (16, 'NX-ACC-001', 40, 10, '2025-10-13 10:10:00'),
-(17, 'NX-ACC-002', 35, 8, '2025-10-13 10:15:00'),
-(18, 'NX-RUB-001', 13, 5, '2025-11-06 09:41:31');
+(17, 'NX-ACC-002', 34, 8, '2025-11-14 16:22:32'),
+(18, 'NX-RUB-001', 4, 5, '2025-11-14 16:21:16'),
+(20, 'NX-TNT-005', 10, 3, '2025-11-14 15:03:55'),
+(21, 'NX-TNT-006', 0, 3, '2025-11-14 16:18:38');
 
 -- --------------------------------------------------------
 
@@ -254,7 +311,7 @@ INSERT INTO `nixar_products` (`nixar_product_sku`, `product_material_id`, `produ
 ('NX-GLS-003', 1, 'Mitsubishi Montero Sport 2020 Windshield Glass', 4, 'default-product.png', 15, 0),
 ('NX-GLS-004', 2, 'Nissan Navara 2022 Front Door Glass (LH)', 5, 'default-product.png', 20, 0),
 ('NX-GLS-005', 2, 'Nissan Navara 2022 Front Door Glass (RH)', 6, 'default-product.png', 5, 0),
-('NX-GLS-006', 2, 'Ford Ranger 2023 Rear Door Glass (LH)', 7, 'default-product.png', 10, 0),
+('NX-GLS-006', 2, 'Ford Ranger 2023 Rear Door Glass (LH)', 9, 'default-product.png', 10, 0),
 ('NX-GLS-007', 2, 'Ford Ranger 2023 Rear Door Glass (RH)', 8, 'default-product.png', 15, 0),
 ('NX-MIR-001', 4, 'Toyota Fortuner 2016 Side Mirror (LH)', 11, 'default-product.png', 20, 0),
 ('NX-MIR-002', 4, 'Toyota Fortuner 2016 Side Mirror (RH)', 12, 'default-product.png', 20, 0),
@@ -264,7 +321,9 @@ INSERT INTO `nixar_products` (`nixar_product_sku`, `product_material_id`, `produ
 ('NX-TNT-001', 3, '3M Ceramic Tint Medium Shade', 17, 'default-product.png', 20, 0),
 ('NX-TNT-002', 3, '3M Ceramic Tint Dark Shade', 19, 'default-product.png', 15, 0),
 ('NX-TNT-003', 3, 'Llumar Platinum Tint 50%', 20, 'default-product.png', 10, 0),
-('NX-TNT-004', 3, 'Llumar Platinum Tint 35%', 21, 'default-product.png', 15, 0);
+('NX-TNT-004', 3, 'Llumar Platinum Tint 35%', 21, 'default-product.png', 15, 0),
+('NX-TNT-005', 3, 'Premium Ceramic Tint Film', 32, '1763129035_691736cbdc13b_premium-ceramic-tint.jpg', 10, 1),
+('NX-TNT-006', 3, '75% Ceramic Tint', 33, '1763133518_6917484e2b728_tint-windshield.jpg', 10, 0);
 
 -- --------------------------------------------------------
 
@@ -336,7 +395,10 @@ INSERT INTO `product_compatibility` (`product_compatibility_id`, `nixar_product_
 (51, 'NX-ACC-002', 4),
 (52, 'NX-ACC-002', 5),
 (53, 'NX-RUB-001', 6),
-(54, 'NX-RUB-001', 7);
+(54, 'NX-RUB-001', 7),
+(56, 'NX-TNT-005', 6),
+(57, 'NX-TNT-006', 9),
+(58, 'NX-TNT-006', 13);
 
 -- --------------------------------------------------------
 
@@ -416,7 +478,6 @@ INSERT INTO `product_suppliers` (`product_supplier_id`, `nixar_product_sku`, `su
 (9, 'NX-GLS-006', 3, 4450),
 (10, 'NX-GLS-007', 3, 4450),
 (11, 'NX-MIR-001', 3, 3200),
-(12, 'NX-MIR-002', 3, 3200),
 (13, 'NX-MIR-003', 3, 3400),
 (14, 'NX-MIR-004', 3, 3400),
 (15, 'NX-MIR-003', 4, 3450),
@@ -428,7 +489,10 @@ INSERT INTO `product_suppliers` (`product_supplier_id`, `nixar_product_sku`, `su
 (23, 'NX-ACC-001', 5, 750),
 (24, 'NX-ACC-002', 5, 580),
 (25, 'NX-ACC-001', 4, 760),
-(26, 'NX-RUB-001', NULL, 450);
+(26, 'NX-RUB-001', NULL, 450),
+(29, 'NX-TNT-005', NULL, 2800),
+(32, 'NX-TNT-005', 1, 2500),
+(33, 'NX-TNT-006', 5, 2300);
 
 -- --------------------------------------------------------
 
@@ -463,7 +527,23 @@ INSERT INTO `receipts` (`receipt_id`, `total_amount`, `discount`, `created_at`) 
 (1013, 14040, 0, '2025-10-08 11:22:18'),
 (1014, 3565, 0, '2025-10-08 16:05:50'),
 (1015, 4357.5, 0, '2025-10-09 10:15:00'),
-(1016, 1000, 80, '2025-11-06 16:41:31');
+(1016, 1000, 80, '2025-11-06 16:41:31'),
+(1017, 5700, 300, '2025-11-14 22:05:21'),
+(1018, 500, 40, '2025-11-14 22:06:55'),
+(1019, 540, 0, '2025-11-14 22:08:45'),
+(1020, 540, 0, '2025-11-14 22:08:45'),
+(1021, 3000, 300, '2025-11-14 22:13:05'),
+(1022, 500, 40, '2025-11-14 22:21:24'),
+(1023, 3000, 300, '2025-11-14 22:22:12'),
+(1024, 7800, 230, '2025-11-14 22:23:22'),
+(1025, 5500, 500, '2025-11-14 22:25:15'),
+(1026, 6300, 335, '2025-11-14 23:06:00'),
+(1027, 6300, 335, '2025-11-14 23:06:20'),
+(1028, 6635, 0, '2025-11-14 23:07:22'),
+(1029, 6635, 0, '2025-11-14 23:07:22'),
+(1030, 8000, 30, '2025-11-14 23:09:43'),
+(1031, 11000, 1135, '2025-11-14 23:21:16'),
+(1032, 600, 67, '2025-11-14 23:22:32');
 
 -- --------------------------------------------------------
 
@@ -510,7 +590,33 @@ INSERT INTO `receipt_details` (`receipt_details_id`, `receipt_id`, `nixar_produc
 (25, 1014, 'NX-TNT-004', 1),
 (26, 1015, 'NX-MIR-003', 1),
 (27, 1015, 'NX-ACC-001', 1),
-(28, 1016, 'NX-RUB-001', 2);
+(28, 1016, 'NX-RUB-001', 2),
+(29, 1017, 'NX-GLS-001', 1),
+(30, 1018, 'NX-RUB-001', 1),
+(31, 1019, 'NX-RUB-001', 1),
+(32, 1020, 'NX-RUB-001', 1),
+(33, 1021, 'NX-TNT-003', 1),
+(34, 1022, 'NX-RUB-001', 1),
+(35, 1023, 'NX-TNT-003', 1),
+(36, 1024, 'NX-GLS-002', 1),
+(37, 1025, 'NX-GLS-001', 1),
+(38, 1026, 'NX-TNT-004', 1),
+(39, 1026, 'NX-TNT-006', 1),
+(40, 1026, 'NX-RUB-001', 1),
+(41, 1027, 'NX-TNT-004', 1),
+(42, 1027, 'NX-TNT-006', 1),
+(43, 1027, 'NX-RUB-001', 1),
+(44, 1028, 'NX-TNT-004', 1),
+(45, 1028, 'NX-TNT-006', 1),
+(46, 1028, 'NX-RUB-001', 1),
+(47, 1029, 'NX-TNT-004', 1),
+(48, 1029, 'NX-TNT-006', 1),
+(49, 1029, 'NX-RUB-001', 1),
+(50, 1030, 'NX-GLS-002', 1),
+(51, 1031, 'NX-GLS-002', 1),
+(52, 1031, 'NX-RUB-001', 1),
+(53, 1031, 'NX-TNT-004', 1),
+(54, 1032, 'NX-ACC-002', 1);
 
 -- --------------------------------------------------------
 
@@ -553,7 +659,7 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`supplier_id`, `supplier_name`, `contact_no`) VALUES
-(1, 'East Homes Mansilingan', '9956446924'),
+(1, 'Raean Tamayo Residences', '9956446924'),
 (2, 'CarPro Distributors', '09283456789'),
 (3, 'TintTech Supplies', '09394561234'),
 (4, 'VisionParts Imports', '09505672345'),
@@ -594,7 +700,23 @@ INSERT INTO `transactions` (`transaction_id`, `issuer_id`, `receipt_id`, `custom
 (13, 2, 1013, 513, '2025-10-08 11:22:18', 'GCash'),
 (14, 2, 1014, 514, '2025-10-08 16:05:50', 'Cash'),
 (15, 2, 1015, 515, '2025-10-09 10:15:00', 'Cash'),
-(16, 1, 1016, 515, '2025-11-06 16:41:31', 'GCash');
+(16, 1, 1016, 515, '2025-11-06 16:41:31', 'GCash'),
+(17, 1, 1017, 519, '2025-11-14 22:05:21', 'Cash'),
+(18, 1, 1018, 521, '2025-11-14 22:06:55', 'G-Cash'),
+(19, 1, 1019, 523, '2025-11-14 22:08:45', 'Cash'),
+(20, 1, 1020, 525, '2025-11-14 22:08:45', 'Cash'),
+(21, 1, 1021, 527, '2025-11-14 22:13:05', 'Cash'),
+(22, 1, 1022, 529, '2025-11-14 22:21:24', 'G-Cash'),
+(23, 1, 1023, 531, '2025-11-14 22:22:12', 'Cash'),
+(24, 1, 1024, 533, '2025-11-14 22:23:22', 'Cash'),
+(25, 1, 1025, 535, '2025-11-14 22:25:15', 'Cash'),
+(26, 1, 1026, 537, '2025-11-14 23:06:00', 'Cash'),
+(27, 1, 1027, 539, '2025-11-14 23:06:20', 'Cash'),
+(28, 1, 1028, 541, '2025-11-14 23:07:22', 'Cash'),
+(29, 1, 1029, 543, '2025-11-14 23:07:22', 'Cash'),
+(30, 1, 1030, 545, '2025-11-14 23:09:43', 'Cash'),
+(31, 1, 1031, 547, '2025-11-14 23:21:16', 'Cash'),
+(32, 2, 1032, 549, '2025-11-14 23:22:32', 'Cash');
 
 -- --------------------------------------------------------
 
@@ -790,31 +912,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `car_details`
 --
 ALTER TABLE `car_details`
-  MODIFY `car_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `car_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `car_models`
 --
 ALTER TABLE `car_models`
-  MODIFY `car_model_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `car_model_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=518;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=550;
 
 --
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `product_compatibility`
 --
 ALTER TABLE `product_compatibility`
-  MODIFY `product_compatibility_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `product_compatibility_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `product_materials`
@@ -826,19 +948,19 @@ ALTER TABLE `product_materials`
 -- AUTO_INCREMENT for table `product_suppliers`
 --
 ALTER TABLE `product_suppliers`
-  MODIFY `product_supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `product_supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `receipts`
 --
 ALTER TABLE `receipts`
-  MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1017;
+  MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1033;
 
 --
 -- AUTO_INCREMENT for table `receipt_details`
 --
 ALTER TABLE `receipt_details`
-  MODIFY `receipt_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `receipt_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
@@ -850,7 +972,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `users`
